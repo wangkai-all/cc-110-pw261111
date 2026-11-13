@@ -32,3 +32,6 @@ test-results/
 *.sqlite3-shm
 *.sqlite3-journal
 !*.traineddata.gz
+
+# 运行期事件数据（原始事件 JSONL 与分区状态）
+/data/

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>访问统计 · 精确去重与 HyperLogLog</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>访问统计台</h1>
+    <div class="spec-chip" id="specChip">加载标识规范中…</div>
+  </header>
+
+  <main>
+    <!-- 事件生成器 -->
+    <section class="card">
+      <h2>1. 本地事件生成器</h2>
+      <p class="hint">访客标识统一为字符串（保留前导零，不转数字）；空标识事件会被服务端丢弃。重叠比例控制跨分区共享同一访客的程度。</p>
+      <div class="grid">
+        <label>日期（逗号分隔）<input id="gDates" value="2026-11-10,2026-11-11,2026-11-12" /></label>
+        <label>渠道（逗号分隔）<input id="gChannels" value="web,app" /></label>
+        <label>每分区访客数<input id="gVisitors" type="number" value="300" min="1" /></label>
+        <label>访客重叠比例 0–1<input id="gOverlap" type="number" value="0.6" min="0" max="1" step="0.05" /></label>
+        <label>分区内重复事件率<input id="gRepeat" type="number" value="0.2" min="0" max="1" step="0.05" /></label>
+        <label>空标识注入率<input id="gEmpty" type="number" value="0.02" min="0" max="1" step="0.01" /></label>
+      </div>
+      <div class="btn-row">
+        <button id="btnGenerate" class="primary">生成事件并写入</button>
+        <button id="btnLate">追加一条迟到事件</button>
+        <button id="btnReset" class="danger">清空全部数据</button>
+        <span id="genMsg" class="msg"></span>
+      </div>
+    </section>
+
+    <!-- 分区列表 -->
+    <section class="card">
+      <h2>2. 分区明细（日期 × 渠道）</h2>
+      <div id="overview" class="overview"></div>
+      <div class="btn-row">
+        <button id="btnSelectAll">全选</button>
+        <button id="btnSelectNone">取消选择</button>
+        <button id="btnMergeSelected" class="primary">合并选中分区</button>
+        <span class="hint">勾选同一日期的多个渠道可得到当日独立访客；跨日期勾选可做任意区间合并。</span>
+      </div>
+      <div id="tableWrap"></div>
+    </section>
+
+    <!-- 合并结果 -->
+    <section class="card" id="mergeCard" hidden>
+      <h2>3. 合并结果：精确去重 vs HyperLogLog 估计</h2>
+      <div id="mergeResult"></div>
+    </section>
+
+    <!-- 摘要导入 -->
+    <section class="card">
+      <h2>4. 导入摘要并合并</h2>
+      <p class="hint">粘贴一个或多个 HLL 摘要 JSON（单个对象或数组均可）。标识规范、哈希种子、精度任一不一致都会被拒绝并指出差异。可与上方勾选的本地分区一起合并。</p>
+      <textarea id="importText" rows="6" placeholder='[{"type":"HyperLogLog","spec":{...},"registersBase64":"..."}]'></textarea>
+      <div class="btn-row">
+        <button id="btnImport" class="primary">导入并与选中分区合并</button>
+        <button id="btnCopySummary">复制上次合并摘要</button>
+      </div>
+      <div id="importResult"></div>
+    </section>
+
+    <!-- 手动写入 / 删除 -->
+    <section class="card">
+      <h2>5. 迟到事件与访客删除</h2>
+      <div class="grid">
+        <label>访客标识（字符串）<input id="evId" placeholder='如 user_000007' /></label>
+        <label>日期<input id="evDate" value="2026-11-10" /></label>
+        <label>渠道<input id="evChannel" value="web" /></label>
+      </div>
+      <div class="btn-row">
+        <button id="btnAddEvent">追加事件（支持迟到）</button>
+        <button id="btnRemove" class="danger">删除该访客并重建分区</button>
+        <span class="hint">删除不会从 HLL 里“减一个人”——寄存器只存最大值、不可逆；服务端从保留的原始事件重建受影响分区。</span>
+      </div>
+      <div id="writeMsg" class="msg"></div>
+    </section>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>

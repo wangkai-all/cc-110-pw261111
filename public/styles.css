@@ -1,0 +1,87 @@
+:root {
+  --bg: #f5f6f8;
+  --card: #ffffff;
+  --ink: #1c2330;
+  --muted: #667085;
+  --line: #e3e6eb;
+  --primary: #2f5fe0;
+  --primary-ink: #fff;
+  --danger: #c0392b;
+  --ok: #1e7d4f;
+  --warn: #9a6700;
+  --code-bg: #f0f2f6;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.55;
+}
+.topbar {
+  display: flex; align-items: center; gap: 16px;
+  padding: 16px 28px; background: #11182b; color: #fff;
+}
+.topbar h1 { font-size: 19px; margin: 0; }
+.spec-chip {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 12px; background: #1f2a44; padding: 6px 10px; border-radius: 6px;
+  color: #b9c6e6;
+}
+main { max-width: 1180px; margin: 24px auto; padding: 0 20px; display: grid; gap: 18px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 20px 22px; }
+.card h2 { font-size: 16px; margin: 0 0 12px; }
+.hint { color: var(--muted); font-size: 13px; margin: 4px 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--muted); }
+input, textarea {
+  font: inherit; padding: 8px 10px; border: 1px solid var(--line);
+  border-radius: 7px; color: var(--ink); background: #fff;
+}
+textarea { width: 100%; resize: vertical; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px; }
+.btn-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 14px; }
+button {
+  font: inherit; font-size: 14px; padding: 8px 16px; border-radius: 7px;
+  border: 1px solid var(--line); background: #fff; cursor: pointer;
+}
+button:hover { border-color: #b9c0cc; }
+button.primary { background: var(--primary); color: var(--primary-ink); border-color: var(--primary); }
+button.danger { color: var(--danger); border-color: #e2b4ae; }
+.msg { font-size: 13px; }
+.msg.ok { color: var(--ok); }
+.msg.err { color: var(--danger); }
+.overview { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
+.stat {
+  background: var(--code-bg); border-radius: 8px; padding: 10px 14px; min-width: 130px;
+}
+.stat b { display: block; font-size: 20px; }
+.stat span { font-size: 12px; color: var(--muted); }
+table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13px; }
+th, td { padding: 9px 10px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+th:first-child, td:first-child, th:nth-child(2), td:nth-child(2) { text-align: left; }
+th { color: var(--muted); font-weight: 600; background: #fafbfc; }
+tr.date-head td { background: #eef2fb; font-weight: 700; text-align: left; }
+.kpi-exact { color: var(--ok); font-weight: 700; }
+.kpi-hll { color: var(--primary); font-weight: 700; }
+.kpi-err { color: var(--warn); font-size: 12px; }
+.result-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.big-kpi { border: 1px solid var(--line); border-radius: 9px; padding: 14px; }
+.big-kpi h3 { margin: 0 0 6px; font-size: 13px; color: var(--muted); }
+.big-kpi .num { font-size: 26px; font-weight: 700; }
+.big-kpi.approx .num { color: var(--primary); }
+.big-kpi.exact .num { color: var(--ok); }
+.tag { display: inline-block; font-size: 11px; padding: 2px 7px; border-radius: 20px; margin-left: 8px; vertical-align: middle; }
+.tag.approx { background: #e6edff; color: var(--primary); }
+.tag.exact { background: #e2f5ea; color: var(--ok); }
+.note-box { background: #fffbeb; border: 1px solid #f1dfa8; border-radius: 8px; padding: 12px 14px; font-size: 13px; margin-top: 14px; }
+.note-box.err { background: #fdecea; border-color: #e6b8b2; }
+.note-box ul { margin: 6px 0 0 18px; padding: 0; }
+details { margin-top: 12px; border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; }
+summary { cursor: pointer; font-weight: 600; font-size: 14px; }
+.visitor-table { font-size: 12px; }
+.visitor-table td, .visitor-table th { padding: 6px 8px; }
+code { background: var(--code-bg); padding: 1px 5px; border-radius: 4px; font-size: 12px; }
+.badge-ok { color: var(--ok); font-weight: 600; }
+.badge-bad { color: var(--danger); font-weight: 600; }
+pre.json { background: var(--code-bg); padding: 12px; border-radius: 8px; overflow: auto; font-size: 12px; max-height: 320px; }

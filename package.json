@@ -1,0 +1,15 @@
+{
+  "name": "pointwise-delivery",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "访问统计：精确去重 + HyperLogLog 近似去重，支持跨日期/渠道合并、摘要导入与原始事件重建",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test 'test/*.test.js'",
+    "generate": "node tools/generate-events.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
